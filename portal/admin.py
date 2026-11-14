@@ -1,24 +1,14 @@
 from django.contrib import admin
-from .models import GasCompanyTheme, GasProduct, PaymentQR, Booking
+from .models import GasCompanyTheme, GasProduct, PaymentQR, Booking, DemoGasConnection
 
 
 @admin.register(GasCompanyTheme)
 class GasCompanyThemeAdmin(admin.ModelAdmin):
     fieldsets = (
-        ("1. Company-style Demo Profile", {
-            "fields": ("profile_key", "theme_style"),
-            "description": "Profile switch करने पर public demo interface का पूरा visual preset बदलेगा। यह किसी वास्तविक provider की official branding नहीं है।",
-        }),
-        ("2. Independent Demo Branding", {
-            "fields": ("portal_name", "logo_text", "logo_image", "tagline"),
-            "description": "अपना नाम और अपना/authorized logo ही उपयोग करें।",
-        }),
-        ("3. Homepage & Navigation", {
-            "fields": ("hero_title", "hero_description", "nav_home_label", "nav_services_label", "nav_booking_label"),
-        }),
-        ("4. Demo Notice & Support", {
-            "fields": ("announcement", "support_phone"),
-        }),
+        ("1. Company-style Demo Profile", {"fields": ("profile_key", "theme_style"), "description": "यह किसी वास्तविक provider की official branding नहीं है।"}),
+        ("2. Independent Demo Branding", {"fields": ("portal_name", "logo_text", "logo_image", "tagline")}),
+        ("3. Homepage & Navigation", {"fields": ("hero_title", "hero_description", "nav_home_label", "nav_services_label", "nav_booking_label")}),
+        ("4. Demo Notice & Support", {"fields": ("announcement", "support_phone")}),
         ("5. System", {"fields": ("updated_at",)}),
     )
     readonly_fields = ("updated_at",)
@@ -28,6 +18,16 @@ class GasCompanyThemeAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(DemoGasConnection)
+class DemoGasConnectionAdmin(admin.ModelAdmin):
+    list_display = ("connection_number", "owner_name", "area_label", "status", "demo_due_amount", "updated_at")
+    list_filter = ("status",)
+    search_fields = ("connection_number", "owner_name")
+    fieldsets = (
+        ("Fictional Demo Record Only", {"fields": ("connection_number", "owner_name", "area_label", "status", "demo_due_amount")}),
+    )
 
 
 @admin.register(GasProduct)
