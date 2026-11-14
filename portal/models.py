@@ -37,6 +37,16 @@ class GasCompanyTheme(models.Model):
         verbose_name = "Website Company Profile Switcher"
         verbose_name_plural = "Website Company Profile Switcher"
 
+    def save(self, *args, **kwargs):
+        preset_themes = {
+            "indian_style": "saffron",
+            "bharat_style": "blue",
+            "green_energy": "green",
+        }
+        if self.profile_key in preset_themes:
+            self.theme_style = preset_themes[self.profile_key]
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.portal_name} ({self.get_profile_key_display()})"
 
