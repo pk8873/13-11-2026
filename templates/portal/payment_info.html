@@ -1,0 +1,24 @@
+{% extends "portal/base.html" %}
+{% block title %}Demo Payment Information{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-7">
+<div class="card border-0 shadow-sm p-4 text-center">
+<span class="badge text-bg-warning align-self-center">PAYMENT SIMULATION ONLY</span>
+<h1 class="h3 mt-3">Booking #{{ booking.id }} बनाई गई</h1>
+<p class="text-muted">Status: {{ booking.get_status_display }}</p>
+<div class="text-start bg-light rounded p-3 mb-3">
+<div><strong>Customer:</strong> {{ booking.customer_name }}</div>
+<div><strong>Product:</strong> {{ booking.product.name }}</div>
+<div><strong>Test amount:</strong> ₹{{ booking.amount }}</div>
+</div>
+{% if qr %}
+<h2 class="h5">Admin-configured test QR</h2>
+<img src="{{ qr.image.url }}" alt="Demo QR code" class="img-fluid qr-image mx-auto">
+<p class="small text-muted mt-2">{{ qr.instructions }}</p>
+{% else %}
+<div class="alert alert-info">Admin panel में अभी कोई QR image upload नहीं की गई है।</div>
+{% endif %}
+<div class="alert alert-danger text-start mt-3"><strong>महत्वपूर्ण:</strong> यह QR केवल display/testing के लिए है। इसे scan करके कोई वास्तविक पैसा न भेजें। वेबसाइट QR scan या transaction verify नहीं करती और payment receive नहीं करती।</div>
+<a href="/" class="btn btn-outline-primary">Home पर वापस जाएँ</a>
+</div></div></div>
+{% endblock %}
