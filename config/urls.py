@@ -7,6 +7,8 @@ from portal import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.home, name="home"),
+    path("demo-connection/lookup/", views.lookup_demo_connection, name="lookup_demo_connection"),
+    path("demo-connection/<int:pk>/simulate-payment/", views.simulate_connection_payment, name="simulate_connection_payment"),
     path("book/", views.create_booking, name="create_booking"),
     path("booking/<int:pk>/payment-info/", views.payment_info, name="payment_info"),
     path("booking/<int:pk>/simulate-payment/", views.simulate_payment, name="simulate_payment"),
