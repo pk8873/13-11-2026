@@ -9,6 +9,8 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("book/", views.create_booking, name="create_booking"),
     path("booking/<int:pk>/payment-info/", views.payment_info, name="payment_info"),
+    path("booking/<int:pk>/simulate-payment/", views.simulate_payment, name="simulate_payment"),
+    path("booking/<int:pk>/connection-status/", views.connection_status, name="connection_status"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
