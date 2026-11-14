@@ -1,27 +1,32 @@
 {% extends "portal/base.html" %}
-{% block title %}Connection Service Demo{% endblock %}
+{% block title %}{{ site_theme.portal_name }} | LPG Service Demo{% endblock %}
 {% block content %}
-<section class="hero p-4 p-md-5 rounded-4 mb-4">
-<div class="row align-items-center"><div class="col-lg-8">
-<span class="badge text-bg-warning mb-2">INDEPENDENT DEMO • TEST ENVIRONMENT</span>
-<h1 class="display-5 fw-bold">LPG Connection Service Portal</h1>
-<p class="lead">कनेक्शन स्टेटस, सर्विस रिक्वेस्ट और पेमेंट स्क्रीन के यूज़र-फ्लो का अभ्यास करें।</p>
-<a href="#booking" class="btn btn-primary btn-lg">Create Demo Request</a>
-</div><div class="col-lg-4 text-center fs-1">🔥 🛢️</div></div>
+<section class="hero-panel rounded-4 mb-4 overflow-hidden">
+<div class="row align-items-center g-0"><div class="col-lg-8 p-4 p-md-5">
+<div class="eyebrow mb-3">DIGITAL LPG SERVICES • DEMO ENVIRONMENT</div>
+<h1 class="display-5 fw-bold mb-3">LPG सेवाएँ, अब एक ही पोर्टल पर</h1>
+<p class="lead mb-4">बुकिंग, सर्विस रिक्वेस्ट और कनेक्शन स्टेटस जैसे डिजिटल अनुभवों का अभ्यास करें।</p>
+<a href="#booking" class="btn btn-primary btn-lg px-4">नई Demo Request <span aria-hidden="true">→</span></a>
+</div><div class="col-lg-4 hero-art d-flex align-items-center justify-content-center"><div class="cylinder-art"><span>🔥</span></div></div></div>
 </section>
-<div class="alert alert-warning"><strong>महत्वपूर्ण डेमो सूचना:</strong> यह किसी वास्तविक गैस कंपनी की आधिकारिक वेबसाइट नहीं है। नीचे दिखने वाला Paused/Active स्टेटस काल्पनिक है। कोई वास्तविक गैस कनेक्शन बंद या चालू नहीं होता और कोई वास्तविक भुगतान स्वीकार नहीं किया जाता।</div>
-<section class="card shadow-sm border-0 p-4" id="booking">
-<h2 class="h4 mb-2">Demo Service Request</h2>
-<p class="text-muted">कृपया केवल काल्पनिक टेस्ट डेटा इस्तेमाल करें।</p>
+<div class="alert demo-alert"><strong>डेमो सूचना:</strong> यह केवल स्वतंत्र UI/UX परीक्षण पोर्टल है। किसी वास्तविक गैस कंपनी का नाम, लोगो या आधिकारिक पहचान उपयोग नहीं की गई है। कनेक्शन स्टेटस काल्पनिक है और कोई वास्तविक भुगतान नहीं लिया जाता।</div>
+<section class="row g-3 mb-4" id="services">
+<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">▣</div><h2 class="h6">LPG सेवा अनुरोध</h2><p class="small mb-0">एक टेस्ट सर्विस रिक्वेस्ट बनाएँ।</p></div></div>
+<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">◷</div><h2 class="h6">कनेक्शन स्टेटस</h2><p class="small mb-0">Paused और Active UI फ्लो देखें।</p></div></div>
+<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">₹</div><h2 class="h6">पेमेंट सिमुलेशन</h2><p class="small mb-0">बिना पैसे के टेस्ट पेमेंट चलाएँ।</p></div></div>
+</section>
+<section class="card form-panel border-0 shadow-sm p-4 p-md-5" id="booking">
+<div class="section-kicker">CUSTOMER SERVICE</div><h2 class="h3 fw-bold mb-2">Demo Service Request</h2>
+<p class="text-muted">कृपया केवल काल्पनिक टेस्ट डेटा भरें।</p>
 {% if products %}
 <form method="post" action="{% url 'create_booking' %}">{% csrf_token %}
 <div class="row g-3">
-<div class="col-md-6"><label class="form-label">Test customer name</label><input class="form-control" name="customer_name" maxlength="120" required></div>
-<div class="col-md-6"><label class="form-label">Test mobile number</label><input class="form-control" name="mobile" inputmode="numeric" maxlength="15" required></div>
-<div class="col-12"><label class="form-label">Fictional test address</label><textarea class="form-control" name="address" rows="2" required></textarea></div>
-<div class="col-12"><label class="form-label">Demo service plan</label><select class="form-select" name="product" required>{% for product in products %}<option value="{{ product.id }}">{{ product.name }} — ₹{{ product.price }}</option>{% endfor %}</select></div>
-<div class="col-12"><button class="btn btn-primary">Continue to Demo Status</button></div>
+<div class="col-md-6"><label class="form-label">टेस्ट ग्राहक का नाम</label><input class="form-control" name="customer_name" maxlength="120" placeholder="उदाहरण: Demo User" required></div>
+<div class="col-md-6"><label class="form-label">टेस्ट मोबाइल नंबर</label><input class="form-control" name="mobile" inputmode="numeric" maxlength="15" placeholder="केवल काल्पनिक नंबर" required></div>
+<div class="col-12"><label class="form-label">काल्पनिक टेस्ट पता</label><textarea class="form-control" name="address" rows="2" placeholder="यहाँ वास्तविक पता न डालें" required></textarea></div>
+<div class="col-12"><label class="form-label">Demo Service Plan</label><select class="form-select" name="product" required>{% for product in products %}<option value="{{ product.id }}">{{ product.name }} — ₹{{ product.price }}</option>{% endfor %}</select></div>
+<div class="col-12"><button class="btn btn-primary btn-lg">आगे बढ़ें <span aria-hidden="true">→</span></button></div>
 </div></form>
-{% else %}<p class="mb-0">Admin panel में पहले Demo Gas Products जोड़ें।</p>{% endif %}
+{% else %}<div class="alert alert-secondary mb-0">Admin Panel में पहले Demo Gas Products जोड़ें।</div>{% endif %}
 </section>
 {% endblock %}
