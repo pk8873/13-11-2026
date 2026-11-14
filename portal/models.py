@@ -3,10 +3,7 @@ from django.db import models
 
 class GasCompanyTheme(models.Model):
     PROFILE_CHOICES = [
-        ("indian_style", "Indian-style LPG Demo Profile"),
-        ("bharat_style", "Bharat-style LPG Demo Profile"),
-        ("green_energy", "Green Energy Utility Demo Profile"),
-        ("custom", "Custom Independent Demo Profile"),
+        ("indian_style", "Indian LPG Service Demo Profile"),
     ]
     THEME_CHOICES = [
         ("indigo", "Indigo Corporate"),
@@ -34,7 +31,7 @@ class GasCompanyTheme(models.Model):
         verbose_name_plural = "Website Company Profile Switcher"
 
     def save(self, *args, **kwargs):
-        preset_themes = {"indian_style": "saffron", "bharat_style": "blue", "green_energy": "green"}
+        preset_themes = {"indian_style": "saffron"}
         if self.profile_key in preset_themes:
             self.theme_style = preset_themes[self.profile_key]
         super().save(*args, **kwargs)
