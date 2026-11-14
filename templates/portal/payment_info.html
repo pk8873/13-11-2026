@@ -1,24 +1,27 @@
 {% extends "portal/base.html" %}
-{% block title %}Demo Payment Information{% endblock %}
+{% block title %}Demo Payment | Connection Service{% endblock %}
 {% block content %}
-<div class="row justify-content-center"><div class="col-lg-7">
-<div class="card border-0 shadow-sm p-4 text-center">
-<span class="badge text-bg-warning align-self-center">PAYMENT SIMULATION ONLY</span>
-<h1 class="h3 mt-3">Booking #{{ booking.id }} बनाई गई</h1>
-<p class="text-muted">Status: {{ booking.get_status_display }}</p>
-<div class="text-start bg-light rounded p-3 mb-3">
-<div><strong>Customer:</strong> {{ booking.customer_name }}</div>
-<div><strong>Product:</strong> {{ booking.product.name }}</div>
-<div><strong>Test amount:</strong> ₹{{ booking.amount }}</div>
+<div class="row justify-content-center"><div class="col-lg-8">
+<div class="card border-0 shadow-sm p-4 p-md-5">
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+<span class="badge text-bg-warning">SIMULATED PAYMENT</span>
+<span class="small text-muted">Reference: DEMO-{{ booking.id|stringformat:"06d" }}</span>
 </div>
-{% if qr %}
-<h2 class="h5">Admin-configured test QR</h2>
-<img src="{{ qr.image.url }}" alt="Demo QR code" class="img-fluid qr-image mx-auto">
-<p class="small text-muted mt-2">{{ qr.instructions }}</p>
-{% else %}
-<div class="alert alert-info">Admin panel में अभी कोई QR image upload नहीं की गई है।</div>
-{% endif %}
-<div class="alert alert-danger text-start mt-3"><strong>महत्वपूर्ण:</strong> यह QR केवल display/testing के लिए है। इसे scan करके कोई वास्तविक पैसा न भेजें। वेबसाइट QR scan या transaction verify नहीं करती और payment receive नहीं करती।</div>
-<a href="/" class="btn btn-outline-primary">Home पर वापस जाएँ</a>
+<h1 class="h3 mt-3">कनेक्शन सेवा अस्थायी रूप से रुकी हुई है</h1>
+<p class="text-muted">यह केवल एक काल्पनिक स्थिति है जिसे आप वेबसाइट टेस्ट करने के लिए देख रहे हैं।</p>
+<div class="alert alert-warning"><strong>DEMO NOTICE:</strong> यह किसी वास्तविक LPG उपभोक्ता का कनेक्शन स्टेटस नहीं है। किसी वास्तविक सेवा को बंद या चालू नहीं किया गया है।</div>
+<div class="bg-light rounded-3 p-3 mb-3">
+<div class="row g-2">
+<div class="col-sm-6"><span class="text-muted small">Demo Reference</span><div class="fw-semibold">DEMO-{{ booking.id|stringformat:"06d" }}</div></div>
+<div class="col-sm-6"><span class="text-muted small">Test customer</span><div class="fw-semibold">{{ booking.customer_name }}</div></div>
+<div class="col-sm-6"><span class="text-muted small">Demo service</span><div class="fw-semibold">{{ booking.product.name }}</div></div>
+<div class="col-sm-6"><span class="text-muted small">Test amount</span><div class="fw-semibold">₹{{ booking.amount }}</div></div>
+</div></div>
+<h2 class="h5">Payment simulation</h2>
+<p>नीचे का बटन केवल डेटाबेस में इस डेमो बुकिंग का स्टेटस बदलता है। कोई UPI ऐप नहीं खुलेगा और कोई पैसा ट्रांसफर नहीं होगा।</p>
+<form method="post" action="{% url 'simulate_payment' booking.pk %}">{% csrf_token %}
+<button class="btn btn-primary btn-lg w-100" type="submit">₹{{ booking.amount }} — Simulate Test Payment</button>
+</form>
+<p class="small text-muted mt-3 mb-0">कृपया वास्तविक UPI ID, बैंक विवरण, OTP या भुगतान QR यहाँ इस्तेमाल न करें।</p>
 </div></div></div>
 {% endblock %}
