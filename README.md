@@ -1,25 +1,21 @@
 # LPG Service Portal — Independent Demo
 
-This project is an independent LPG-service UI/UX demo. It is not an official portal of any gas provider. It does not pause or restore real connections and does not collect real payments.
+This is an independent LPG service UI/UX demo. It is not an official portal of IndianOil, Indane, Bharatgas, HP Gas, or any government/provider. It cannot look up real customer records, pause/restore real connections, issue real bills, or collect real payments.
 
-## Admin Company Profile Switcher
+## Demo connection lookup
 
-Open /admin/ and edit **Website Company Profile Switcher**. Only one settings row is allowed; edit that row to switch profiles.
+- Admin creates fictional records under **Demo Gas Connections**.
+- Test users enter the fictional Demo Connection ID and fictional Demo Owner Name.
+- The page shows a clearly watermarked **DEMO BILL — NOT A REAL BILL**.
+- The demo status can be changed from **ON HOLD** to **ACTIVE** only through a no-money payment simulation.
+- Use only fictional IDs such as `DEMO-100001` and fictional names. Never enter real consumer details.
 
-Profiles:
-- Indian-style LPG Demo Profile
-- Bharat-style LPG Demo Profile
-- Green Energy Utility Demo Profile
-- Custom Independent Demo Profile
+## Admin setup
 
-Switching the profile changes the page composition, header treatment, hero layout, service-card treatment, and palette. Admin can also edit:
-- Independent portal name and tagline
-- Text logo or upload an original/authorized demo logo
-- Homepage heading and description
-- Navigation labels
-- Demo announcement and support label
-
-Do not upload another company's official logo or create a page that could be mistaken for its official service/payment portal. The public site always displays a DEMO / TESTING notice.
+Open /admin/ and:
+1. Edit **Website Company Profile Switcher** for independent portal branding.
+2. Add **Demo Gas Connections** with fictional IDs/names and a test due amount.
+3. Use only original/authorized demo branding; do not use provider logos or official-looking payment details.
 
 ## Windows setup (Python 3.12)
 ```powershell
@@ -32,15 +28,5 @@ python manage.py runserver
 ```
 Open http://127.0.0.1:8000/ and http://127.0.0.1:8000/admin/.
 
-## Demo workflow
-1. Add Demo Gas Products in Admin.
-2. Create a service request with fictional test details.
-3. View the simulated paused status.
-4. Click Simulate Test Payment. No money is moved.
-5. View the simulated restored status.
-
-## Media uploads
-The uploaded logo is stored under MEDIA_ROOT/demo_branding/. Configure persistent media storage and backups before deploying.
-
-## Deployment
-Do not use Django's development server in production. Set DEBUG=False, a strong secret key, allowed hosts, HTTPS, secure cookies, production database, and persistent media storage. Real payment testing requires an authorized payment provider's sandbox.
+## Real-world integrations
+Real LPG account lookup, connection status changes, billing, and payments require formal authorization and official provider APIs/partner access. A real payment gateway must be integrated in its authorized sandbox/live mode; this demo does not process payments.
