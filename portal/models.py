@@ -17,11 +17,7 @@ class GasCompanyTheme(models.Model):
     profile_key = models.CharField(max_length=24, choices=PROFILE_CHOICES, default="indian_style")
     portal_name = models.CharField(max_length=100, default="Gas Seva Demo")
     logo_text = models.CharField(max_length=10, default="GS")
-    logo_image = models.ImageField(
-        upload_to="demo_branding/",
-        blank=True,
-        help_text="केवल अपना बनाया हुआ या उपयोग की अनुमति वाला Demo logo upload करें। वास्तविक provider का logo नहीं।",
-    )
+    logo_image = models.ImageField(upload_to="demo_branding/", blank=True, help_text="केवल अपना बनाया हुआ या उपयोग की अनुमति वाला Demo logo upload करें। वास्तविक provider का logo नहीं।")
     tagline = models.CharField(max_length=180, default="Your independent demo LPG service portal")
     theme_style = models.CharField(max_length=20, choices=THEME_CHOICES, default="indigo")
     hero_title = models.CharField(max_length=160, default="LPG सेवाएँ, अब एक ही Demo पोर्टल पर")
@@ -38,17 +34,31 @@ class GasCompanyTheme(models.Model):
         verbose_name_plural = "Website Company Profile Switcher"
 
     def save(self, *args, **kwargs):
-        preset_themes = {
-            "indian_style": "saffron",
-            "bharat_style": "blue",
-            "green_energy": "green",
-        }
+        preset_themes = {"indian_style": "saffron", "bharat_style": "blue", "green_energy": "green"}
         if self.profile_key in preset_themes:
             self.theme_style = preset_themes[self.profile_key]
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.portal_name} ({self.get_profile_key_display()})"
+
+
+class DemoGasConnection(models.Model):
+    STATUS_CHOICES = [("HOLD", "Demo On Hold"), ("ACTIVE", "Demo Active")]
+    connection_number = models.CharField(max_length=24, unique=True, help_text="केवल काल्पनिक Demo ID, जैसे DEMO-100001")
+    owner_name = models.CharField(max_length=120, help_text="केवल काल्पनिक नाम इस्तेमाल करें।")
+    area_label = models.CharField(max_length=120, blank=True, help_text="काल्पनिक क्षेत्र/पता; वास्तविक ग्राहक का पता नहीं।")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="HOLD")
+    demo_due_amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["connection_number"]
+        verbose_name = "Demo Gas Connection"
+        verbose_name_plural = "Demo Gas Connections"
+
+    def __str__(self):
+        return f"{self.connection_number} — {self.owner_name} (DEMO)"
 
 
 class GasProduct(models.Model):
