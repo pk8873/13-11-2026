@@ -1,0 +1,2 @@
+:root{--navy:#123b67;--blue:#1768b3}
+body{background:#f4f7fb;color:#1f2937}.demo-banner{background:#fff1c2;color:#674b00;text-align:center;padding:8px 12px;font-size:13px;font-weight:700}.topbar{background:var(--navy)}.hero{background:linear-gradient(120deg,#e7f2ff,#fff);border:1px solid #d8e8fb}.btn-primary{background:var(--blue);border-color:var(--blue)}.qr-image{max-width:280px;max-height:280px;object-fit:contain;border:1px solid #ddd;padding:8px;border-radius:12px;background:#fff}
