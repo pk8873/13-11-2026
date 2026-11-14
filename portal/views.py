@@ -1,12 +1,23 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
-from .models import GasProduct, PaymentQR, Booking
+from .models import GasCompanyTheme, GasProduct, Booking
+
+
+def get_site_theme():
+    theme, _ = GasCompanyTheme.objects.get_or_create(
+        pk=1,
+        defaults={"portal_name": "Gas Seva Demo", "theme_style": "indigo"},
+    )
+    return theme
 
 
 def home(request):
     products = GasProduct.objects.filter(active=True)
-    return render(request, "portal/home.html", {"products": products})
+    return render(request, "portal/home.html", {
+        "products": products,
+        "site_theme": get_site_theme(),
+    })
 
 
 @require_http_methods(["POST"])
@@ -31,8 +42,9 @@ def create_booking(request):
 
 def payment_info(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
-    # Deliberately no live UPI/QR payment: this is a safe payment simulation.
-    return render(request, "portal/payment_info.html", {"booking": booking})
+    return render(request, "portal/payment_info.html", {
+        "booking": booking, "site_theme": get_site_theme(),
+    })
 
 
 @require_http_methods(["POST"])
@@ -50,4 +62,5 @@ def connection_status(request, pk):
     return render(request, "portal/connection_status.html", {
         "booking": booking,
         "restored": restored,
+        "site_theme": get_site_theme(),
     })
