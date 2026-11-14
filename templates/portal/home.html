@@ -4,12 +4,12 @@
 <section class="hero-panel rounded-4 mb-4 overflow-hidden">
 <div class="row align-items-center g-0"><div class="col-lg-8 p-4 p-md-5">
 <div class="eyebrow mb-3">DIGITAL LPG SERVICES • DEMO ENVIRONMENT</div>
-<h1 class="display-5 fw-bold mb-3">LPG सेवाएँ, अब एक ही पोर्टल पर</h1>
-<p class="lead mb-4">बुकिंग, सर्विस रिक्वेस्ट और कनेक्शन स्टेटस जैसे डिजिटल अनुभवों का अभ्यास करें।</p>
-<a href="#booking" class="btn btn-primary btn-lg px-4">नई Demo Request <span aria-hidden="true">→</span></a>
-</div><div class="col-lg-4 hero-art d-flex align-items-center justify-content-center"><div class="cylinder-art"><span>🔥</span></div></div></div>
+<h1 class="display-5 fw-bold mb-3">{{ site_theme.hero_title|default:"LPG सेवाएँ, अब एक ही Demo पोर्टल पर" }}</h1>
+<p class="lead mb-4">{{ site_theme.hero_description|default:"बुकिंग और सर्विस अनुभव का अभ्यास इस स्वतंत्र Demo वातावरण में करें।" }}</p>
+<a href="#booking" class="btn btn-primary btn-lg px-4">{{ site_theme.nav_booking_label|default:"नई Demo Request" }} <span aria-hidden="true">→</span></a>
+</div><div class="col-lg-4 hero-art d-flex align-items-center justify-content-center"><div class="cylinder-art"><span>{{ site_theme.logo_text|default:"GS" }}</span></div></div></div>
 </section>
-<div class="alert demo-alert"><strong>डेमो सूचना:</strong> यह केवल स्वतंत्र UI/UX परीक्षण पोर्टल है। किसी वास्तविक गैस कंपनी का नाम, लोगो या आधिकारिक पहचान उपयोग नहीं की गई है। कनेक्शन स्टेटस काल्पनिक है और कोई वास्तविक भुगतान नहीं लिया जाता।</div>
+<div class="alert demo-alert"><strong>डेमो सूचना:</strong> यह केवल स्वतंत्र UI/UX परीक्षण पोर्टल है। किसी वास्तविक गैस कंपनी की आधिकारिक वेबसाइट नहीं है। कनेक्शन स्टेटस काल्पनिक है और कोई वास्तविक भुगतान नहीं लिया जाता।</div>
 <section class="row g-3 mb-4" id="services">
 <div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">▣</div><h2 class="h6">LPG सेवा अनुरोध</h2><p class="small mb-0">एक टेस्ट सर्विस रिक्वेस्ट बनाएँ।</p></div></div>
 <div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">◷</div><h2 class="h6">कनेक्शन स्टेटस</h2><p class="small mb-0">Paused और Active UI फ्लो देखें।</p></div></div>
