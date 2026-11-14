@@ -3,30 +3,27 @@
 {% block content %}
 <section class="hero-panel rounded-4 mb-4 overflow-hidden">
 <div class="row align-items-center g-0"><div class="col-lg-8 p-4 p-md-5">
-<div class="eyebrow mb-3">DIGITAL LPG SERVICES • DEMO ENVIRONMENT</div>
+<div class="eyebrow mb-3">INDEPENDENT LPG SERVICE • DEMO ENVIRONMENT</div>
 <h1 class="display-5 fw-bold mb-3">{{ site_theme.hero_title|default:"LPG सेवाएँ, अब एक ही Demo पोर्टल पर" }}</h1>
 <p class="lead mb-4">{{ site_theme.hero_description|default:"बुकिंग और सर्विस अनुभव का अभ्यास इस स्वतंत्र Demo वातावरण में करें।" }}</p>
-<a href="#booking" class="btn btn-primary btn-lg px-4">{{ site_theme.nav_booking_label|default:"नई Demo Request" }} <span aria-hidden="true">→</span></a>
+<a href="#connection-lookup" class="btn btn-primary btn-lg px-4">Demo Connection Status देखें →</a>
 </div><div class="col-lg-4 hero-art d-flex align-items-center justify-content-center"><div class="cylinder-art"><span>{{ site_theme.logo_text|default:"GS" }}</span></div></div></div>
 </section>
-<div class="alert demo-alert"><strong>डेमो सूचना:</strong> यह केवल स्वतंत्र UI/UX परीक्षण पोर्टल है। किसी वास्तविक गैस कंपनी की आधिकारिक वेबसाइट नहीं है। कनेक्शन स्टेटस काल्पनिक है और कोई वास्तविक भुगतान नहीं लिया जाता।</div>
-<section class="row g-3 mb-4" id="services">
-<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">▣</div><h2 class="h6">LPG सेवा अनुरोध</h2><p class="small mb-0">एक टेस्ट सर्विस रिक्वेस्ट बनाएँ।</p></div></div>
-<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">◷</div><h2 class="h6">कनेक्शन स्टेटस</h2><p class="small mb-0">Paused और Active UI फ्लो देखें।</p></div></div>
-<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">₹</div><h2 class="h6">पेमेंट सिमुलेशन</h2><p class="small mb-0">बिना पैसे के टेस्ट पेमेंट चलाएँ।</p></div></div>
-</section>
-<section class="card form-panel border-0 shadow-sm p-4 p-md-5" id="booking">
-<div class="section-kicker">CUSTOMER SERVICE</div><h2 class="h3 fw-bold mb-2">Demo Service Request</h2>
-<p class="text-muted">कृपया केवल काल्पनिक टेस्ट डेटा भरें।</p>
-{% if products %}
-<form method="post" action="{% url 'create_booking' %}">{% csrf_token %}
+<div class="alert demo-alert"><strong>DEMO / TESTING ONLY:</strong> यह स्वतंत्र Demo है, किसी वास्तविक गैस कंपनी की आधिकारिक वेबसाइट नहीं। केवल काल्पनिक Demo ID और नाम डालें। कोई असली कनेक्शन नहीं बदलेगा और कोई वास्तविक भुगतान नहीं होगा।</div>
+<section class="card form-panel border-0 shadow-sm p-4 p-md-5 mb-4" id="connection-lookup">
+<div class="section-kicker">DEMO CUSTOMER LOOKUP</div>
+<h2 class="h3 fw-bold mb-2">अपना Demo LPG Connection खोजें</h2>
+<p class="text-muted">Admin द्वारा बनाए गए काल्पनिक रिकॉर्ड का Demo बिल और स्थिति देखने के लिए Demo Connection ID तथा Demo Owner Name दर्ज करें। वास्तविक LPG नंबर या असली व्यक्ति का नाम न डालें।</p>
+<form method="post" action="{% url 'lookup_demo_connection' %}">{% csrf_token %}
 <div class="row g-3">
-<div class="col-md-6"><label class="form-label">टेस्ट ग्राहक का नाम</label><input class="form-control" name="customer_name" maxlength="120" placeholder="उदाहरण: Demo User" required></div>
-<div class="col-md-6"><label class="form-label">टेस्ट मोबाइल नंबर</label><input class="form-control" name="mobile" inputmode="numeric" maxlength="15" placeholder="केवल काल्पनिक नंबर" required></div>
-<div class="col-12"><label class="form-label">काल्पनिक टेस्ट पता</label><textarea class="form-control" name="address" rows="2" placeholder="यहाँ वास्तविक पता न डालें" required></textarea></div>
-<div class="col-12"><label class="form-label">Demo Service Plan</label><select class="form-select" name="product" required>{% for product in products %}<option value="{{ product.id }}">{{ product.name }} — ₹{{ product.price }}</option>{% endfor %}</select></div>
-<div class="col-12"><button class="btn btn-primary btn-lg">आगे बढ़ें <span aria-hidden="true">→</span></button></div>
+<div class="col-md-6"><label class="form-label" for="connection_number">Demo Connection ID</label><input id="connection_number" class="form-control" name="connection_number" maxlength="24" placeholder="उदाहरण: DEMO-100001" required></div>
+<div class="col-md-6"><label class="form-label" for="owner_name">Demo Owner Name</label><input id="owner_name" class="form-control" name="owner_name" maxlength="120" placeholder="उदाहरण: Demo Customer" required></div>
+<div class="col-12"><button class="btn btn-primary btn-lg" type="submit">Demo Record खोजें</button></div>
 </div></form>
-{% else %}<div class="alert alert-secondary mb-0">Admin Panel में पहले Demo Gas Products जोड़ें।</div>{% endif %}
+</section>
+<section class="row g-3 mb-4" id="services">
+<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">▣</div><h2 class="h6">Demo Bill</h2><p class="small mb-0">काल्पनिक रिकॉर्ड से बिल का नमूना।</p></div></div>
+<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">◷</div><h2 class="h6">Demo Status</h2><p class="small mb-0">On Hold और Active का UI अनुभव।</p></div></div>
+<div class="col-md-4"><div class="service-tile h-100"><div class="service-icon">₹</div><h2 class="h6">Payment Simulation</h2><p class="small mb-0">बिना पैसे के भुगतान प्रक्रिया का परीक्षण।</p></div></div>
 </section>
 {% endblock %}
