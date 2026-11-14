@@ -33,3 +33,18 @@ For temporary testing, use a secure tunnel such as Cloudflare Tunnel or deploy t
 
 ## Important
 This project does not imitate IndianOil, Bharatgas, HP Gas, or any other real provider. It does not process UPI payments, verify transactions, or collect money. Use a licensed payment gateway's sandbox for integration testing.
+
+## Temporary public link for supervised testing (Windows)
+1. Keep Django running locally on port 8000.
+2. Install Cloudflare Tunnel: `winget install --id Cloudflare.cloudflared`.
+3. In a second PowerShell window run: `cloudflared tunnel --url http://localhost:8000`.
+4. Cloudflare prints a temporary `https://....trycloudflare.com` URL. This URL can change when the tunnel restarts.
+5. Stop the tunnel with Ctrl+C when testing is finished.
+
+For the public URL, set its hostname in `DJANGO_ALLOWED_HOSTS` and its HTTPS origin in `DJANGO_CSRF_TRUSTED_ORIGINS`, then restart Django. Example (replace the sample hostname):
+```powershell
+$env:DJANGO_ALLOWED_HOSTS="127.0.0.1,localhost,example.trycloudflare.com"
+$env:DJANGO_CSRF_TRUSTED_ORIGINS="https://example.trycloudflare.com"
+python manage.py runserver
+```
+A tunnel exposes your local computer to the internet while it is running. Share only with trusted testers; use fictional test details; do not upload personal or financial data. This is not production hosting.
