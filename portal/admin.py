@@ -4,10 +4,30 @@ from .models import GasCompanyTheme, GasProduct, PaymentQR, Booking
 
 @admin.register(GasCompanyTheme)
 class GasCompanyThemeAdmin(admin.ModelAdmin):
-    list_display = ("portal_name", "theme_style", "updated_at")
-    fields = ("portal_name", "tagline", "theme_style", "support_phone", "announcement")
+    fieldsets = (
+        ("1. Company-style Demo Profile", {
+            "fields": ("profile_key", "theme_style"),
+            "description": "Profile switch करने पर public demo interface का पूरा visual preset बदलेगा। यह किसी वास्तविक provider की official branding नहीं है।",
+        }),
+        ("2. Independent Demo Branding", {
+            "fields": ("portal_name", "logo_text", "logo_image", "tagline"),
+            "description": "अपना नाम और अपना/authorized logo ही उपयोग करें।",
+        }),
+        ("3. Homepage & Navigation", {
+            "fields": ("hero_title", "hero_description", "nav_home_label", "nav_services_label", "nav_booking_label"),
+        }),
+        ("4. Demo Notice & Support", {
+            "fields": ("announcement", "support_phone"),
+        }),
+        ("5. System", {"fields": ("updated_at",)}),
+    )
+    readonly_fields = ("updated_at",)
+
     def has_add_permission(self, request):
         return not GasCompanyTheme.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(GasProduct)
@@ -22,6 +42,7 @@ class PaymentQRAdmin(admin.ModelAdmin):
     list_display = ("title", "active", "updated_at")
     list_filter = ("active",)
     fields = ("title", "image", "instructions", "active")
+
     def has_add_permission(self, request):
         return not PaymentQR.objects.exists()
 
