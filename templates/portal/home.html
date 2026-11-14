@@ -1,0 +1,26 @@
+{% extends "portal/base.html" %}
+{% block title %}Gas Booking Demo{% endblock %}
+{% block content %}
+<section class="hero p-4 p-md-5 rounded-4 mb-4">
+<div class="row align-items-center"><div class="col-lg-8">
+<span class="badge text-bg-warning mb-2">DEMO PORTAL</span>
+<h1 class="display-5 fw-bold">LPG Gas Booking Demo</h1>
+<p class="lead">Online booking workflow का अभ्यास करें। यह केवल software testing के लिए है।</p>
+<a href="#booking" class="btn btn-primary btn-lg">Demo Booking करें</a>
+</div><div class="col-lg-4 text-center fs-1">🔥 🛢️</div></div>
+</section>
+<div class="alert alert-warning">सावधानी: यहाँ कोई वास्तविक गैस सेवा उपलब्ध नहीं है। किसी को पैसा न भेजें और संवेदनशील पहचान/बैंक जानकारी साझा न करें।</div>
+<section id="booking" class="card shadow-sm border-0 p-4">
+<h2 class="h4 mb-3">Demo Cylinder Booking</h2>
+{% if products %}
+<form method="post" action="{% url 'create_booking' %}">{% csrf_token %}
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label">नाम</label><input class="form-control" name="customer_name" maxlength="120" required></div>
+<div class="col-md-6"><label class="form-label">मोबाइल नंबर (टेस्ट)</label><input class="form-control" name="mobile" inputmode="numeric" maxlength="15" required></div>
+<div class="col-12"><label class="form-label">डिलीवरी पता (काल्पनिक टेस्ट पता)</label><textarea class="form-control" name="address" rows="2" required></textarea></div>
+<div class="col-12"><label class="form-label">Demo Product</label><select class="form-select" name="product" required>{% for product in products %}<option value="{{ product.id }}">{{ product.name }} — ₹{{ product.price }}</option>{% endfor %}</select></div>
+<div class="col-12"><button class="btn btn-primary">Booking जारी रखें</button></div>
+</div></form>
+{% else %}<p class="mb-0">Admin panel में पहले Gas Products जोड़ें।</p>{% endif %}
+</section>
+{% endblock %}
