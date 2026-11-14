@@ -1,0 +1,29 @@
+{% extends "portal/base.html" %}
+{% block title %}Demo Connection Status{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-8">
+<div class="card border-0 shadow-sm p-4 p-md-5">
+<span class="badge text-bg-warning align-self-start">DEMO CONNECTION STATUS</span>
+<h1 class="h3 mt-3">कनेक्शन स्थिति</h1>
+<div class="alert alert-warning">यह एक काल्पनिक डेमो है। इसका किसी गैस कंपनी, सरकारी विभाग या वास्तविक उपभोक्ता रिकॉर्ड से कोई संबंध नहीं है।</div>
+<div class="bg-light rounded-3 p-3 mb-3">
+<div class="small text-muted">Demo Reference</div>
+<div class="fw-bold fs-5">DEMO-{{ booking.id|stringformat:"06d" }}</div>
+<div class="small text-muted mt-2">Test customer</div>
+<div>{{ booking.customer_name }}</div>
+</div>
+{% if restored %}
+<div class="alert alert-success">
+<h2 class="h5 mb-1">Demo Connection Restored</h2>
+इस डेमो बुकिंग का टेस्ट पेमेंट सफलतापूर्वक simulate हुआ। Demo status अब Active है।
+</div>
+{% else %}
+<div class="alert alert-danger">
+<h2 class="h5 mb-1">Demo Connection Paused</h2>
+यह टेस्ट बुकिंग अभी Pending है। नीचे जाकर केवल simulated payment चलाएँ।
+</div>
+<a class="btn btn-primary" href="{% url 'payment_info' booking.pk %}">Demo Payment पर जाएँ</a>
+{% endif %}
+<a class="btn btn-outline-secondary mt-3" href="/">Home पर वापस जाएँ</a>
+</div></div></div>
+{% endblock %}
