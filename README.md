@@ -22,8 +22,11 @@ python manage.py runserver
 ```
 Open http://127.0.0.1:8000 and admin at http://127.0.0.1:8000/admin/
 
-## QR upload
-Admin > Payment QR Settings > add/edit QR image. The current image is displayed on the demo payment information page. Only upload a QR you own or are authorized to use. The page explicitly says not to transfer real money.
+## First admin setup
+1. Sign in at /admin/.
+2. Add one or more Gas Products and set test prices.
+3. Open Payment QR Settings and upload an image QR that you own/control. You can replace it later from the same admin record.
+4. Create a test booking from the home page.
 
 ## Public internet testing
 For temporary testing, use a secure tunnel such as Cloudflare Tunnel or deploy to a test host. Never expose Django's development server as a production server. Before public deployment: set DEBUG=False, configure ALLOWED_HOSTS, use a strong SECRET_KEY from environment variables, HTTPS, secure cookies, backups, and a production database/server.
