@@ -1,30 +1,25 @@
-# LPG Connection Service Demo (Independent Testing Project)
+# LPG Service Portal — Independent Demo
 
-> स्पष्ट Demo/Testing portal. यह किसी सरकारी या निजी गैस कंपनी की आधिकारिक वेबसाइट नहीं है। कोई वास्तविक भुगतान न करें।
+This project is an independent LPG-service UI/UX demo. It is not an official portal of any gas provider. It does not pause or restore real connections and does not collect real payments.
 
-## Features
-- Django 5.2 + SQLite
-- Responsive Hindi-friendly Indian utility-style portal UI
-- Admin-managed website title, tagline, demo support text and announcement
-- Four independent visual themes: Indigo Corporate, Saffron Service, Green Energy, Blue Utility
-- Demo booking request, simulated connection pause, test payment and restored status
-- Admin management for products, prices and booking statuses
+## Admin Company Profile Switcher
 
-## Theme customisation in Admin
-1. Sign in at /admin/.
-2. Open **Website Appearance Settings**.
-3. Edit portal name, tagline, theme style, demo support phone text and announcement.
-4. Save; the public website immediately uses the selected theme.
-5. Only one appearance settings record is allowed; edit the existing record to switch styles.
+Open /admin/ and edit **Website Company Profile Switcher**. Only one settings row is allowed; edit that row to switch profiles.
 
-These are original generic demo themes. They do not reproduce IndianOil, Bharatgas, HP Gas or another provider's logos, exact brand identity, official notices, or payment flows.
+Profiles:
+- Indian-style LPG Demo Profile
+- Bharat-style LPG Demo Profile
+- Green Energy Utility Demo Profile
+- Custom Independent Demo Profile
 
-## Important safety design
-- This is an independent demo, not an official provider portal.
-- No real UPI payment, QR payment, payment collection or transaction verification.
-- The simulated payment only changes a demo booking status in the local database.
-- Use fictional customer details only.
-- No real gas connection is paused or restored.
+Switching the profile changes the page composition, header treatment, hero layout, service-card treatment, and palette. Admin can also edit:
+- Independent portal name and tagline
+- Text logo or upload an original/authorized demo logo
+- Homepage heading and description
+- Navigation labels
+- Demo announcement and support label
+
+Do not upload another company's official logo or create a page that could be mistaken for its official service/payment portal. The public site always displays a DEMO / TESTING notice.
 
 ## Windows setup (Python 3.12)
 ```powershell
@@ -35,27 +30,17 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
-Open http://127.0.0.1:8000 and admin at http://127.0.0.1:8000/admin/
+Open http://127.0.0.1:8000/ and http://127.0.0.1:8000/admin/.
 
-## Test the workflow
-1. In Admin, add Demo Gas Products.
-2. Open the home page and create a demo service request using fictional details.
-3. See the simulated paused connection page.
-4. Click **Simulate Test Payment**; no money is transferred.
-5. See the Demo Connection Restored page.
-6. In Admin, inspect the booking status.
+## Demo workflow
+1. Add Demo Gas Products in Admin.
+2. Create a service request with fictional test details.
+3. View the simulated paused status.
+4. Click Simulate Test Payment. No money is moved.
+5. View the simulated restored status.
 
-## Temporary public internet testing (ngrok)
-1. Run Django locally on port 8000.
-2. In a second PowerShell window, run ngrok http 8000.
-3. Copy the HTTPS forwarding hostname shown by ngrok.
-4. Set that hostname in DJANGO_ALLOWED_HOSTS and the HTTPS origin in DJANGO_CSRF_TRUSTED_ORIGINS, then restart Django. Example:
-```powershell
-$env:DJANGO_ALLOWED_HOSTS="127.0.0.1,localhost,example.ngrok-free.app"
-$env:DJANGO_CSRF_TRUSTED_ORIGINS="https://example.ngrok-free.app"
-python manage.py runserver
-```
-Replace the example hostname with the actual ngrok hostname. Keep Django and ngrok running while testing. A free tunnel URL may change after restart.
+## Media uploads
+The uploaded logo is stored under MEDIA_ROOT/demo_branding/. Configure persistent media storage and backups before deploying.
 
-## Before production
-Do not use Django's development server as production hosting. Configure DEBUG=False, a strong environment-based SECRET_KEY, allowed hosts, HTTPS, secure cookies, backups, and a production database/server. Genuine payment testing requires a licensed payment provider's sandbox.
+## Deployment
+Do not use Django's development server in production. Set DEBUG=False, a strong secret key, allowed hosts, HTTPS, secure cookies, production database, and persistent media storage. Real payment testing requires an authorized payment provider's sandbox.
