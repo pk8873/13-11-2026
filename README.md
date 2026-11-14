@@ -1,15 +1,22 @@
-# Bharat LPG Demo (Independent Testing Project)
+# LPG Connection Service Demo (Independent Testing Project)
 
 > स्पष्ट Demo/Testing portal. यह किसी सरकारी या निजी गैस कंपनी की आधिकारिक वेबसाइट नहीं है। कोई वास्तविक भुगतान न करें।
 
 ## Features
-- Django 5.2 LTS + SQLite
-- Public gas booking form
-- Admin-managed products and prices
-- Admin-uploadable/changeable payment QR image
-- Booking status management
-- Demo payment information page (no payment verification or collection)
-- Responsive Hindi-friendly UI
+- Django 5.2 + SQLite
+- Hindi-friendly responsive demo service portal
+- Demo booking request
+- Simulated "Connection Paused" status
+- Test payment button (changes only the demo booking status in the database)
+- Simulated "Demo Connection Restored" confirmation
+- Django Admin for products, prices, and booking status
+
+## Important safety design
+- No real provider logos, names, or official affiliation.
+- No real UPI QR or payment collection.
+- The payment simulation does not open a UPI app, contact a bank, or verify a transaction.
+- Use fictional customer details only.
+- This demo does not disconnect or reconnect any real gas connection.
 
 ## Windows setup (Python 3.12)
 ```powershell
@@ -22,29 +29,25 @@ python manage.py runserver
 ```
 Open http://127.0.0.1:8000 and admin at http://127.0.0.1:8000/admin/
 
-## First admin setup
-1. Sign in at /admin/.
-2. Add one or more Gas Products and set test prices.
-3. Open Payment QR Settings and upload an image QR that you own/control. You can replace it later from the same admin record.
-4. Create a test booking from the home page.
+## Test the workflow
+1. Sign in to /admin/ and add one or more Gas Products with fictional test prices.
+2. Open the home page and submit a demo service request using fictional details.
+3. The payment page displays a simulated paused-connection notice.
+4. Click "Simulate Test Payment". No money is transferred.
+5. The next page shows "Demo Connection Restored".
+6. Admin can inspect the booking and its status.
 
-## Public internet testing
-For temporary testing, use a secure tunnel such as Cloudflare Tunnel or deploy to a test host. Never expose Django's development server as a production server. Before public deployment: set DEBUG=False, configure ALLOWED_HOSTS, use a strong SECRET_KEY from environment variables, HTTPS, secure cookies, backups, and a production database/server.
-
-## Important
-This project does not imitate IndianOil, Bharatgas, HP Gas, or any other real provider. It does not process UPI payments, verify transactions, or collect money. Use a licensed payment gateway's sandbox for integration testing.
-
-## Temporary public link for supervised testing (Windows)
-1. Keep Django running locally on port 8000.
-2. Install Cloudflare Tunnel: `winget install --id Cloudflare.cloudflared`.
-3. In a second PowerShell window run: `cloudflared tunnel --url http://localhost:8000`.
-4. Cloudflare prints a temporary `https://....trycloudflare.com` URL. This URL can change when the tunnel restarts.
-5. Stop the tunnel with Ctrl+C when testing is finished.
-
-For the public URL, set its hostname in `DJANGO_ALLOWED_HOSTS` and its HTTPS origin in `DJANGO_CSRF_TRUSTED_ORIGINS`, then restart Django. Example (replace the sample hostname):
+## Temporary public internet testing (ngrok)
+1. Run Django locally on port 8000.
+2. In a second PowerShell window, run `ngrok http 8000`.
+3. Copy the HTTPS forwarding hostname shown by ngrok.
+4. Set that hostname in `DJANGO_ALLOWED_HOSTS` and the HTTPS origin in `DJANGO_CSRF_TRUSTED_ORIGINS`, then restart Django. Example:
 ```powershell
-$env:DJANGO_ALLOWED_HOSTS="127.0.0.1,localhost,example.trycloudflare.com"
-$env:DJANGO_CSRF_TRUSTED_ORIGINS="https://example.trycloudflare.com"
+$env:DJANGO_ALLOWED_HOSTS="127.0.0.1,localhost,example.ngrok-free.app"
+$env:DJANGO_CSRF_TRUSTED_ORIGINS="https://example.ngrok-free.app"
 python manage.py runserver
 ```
-A tunnel exposes your local computer to the internet while it is running. Share only with trusted testers; use fictional test details; do not upload personal or financial data. This is not production hosting.
+Replace the example hostname with the actual ngrok hostname. Keep Django and ngrok running while testing. A free tunnel URL may change after restart.
+
+## Before any real production use
+Do not use Django's development server as production hosting. Configure DEBUG=False, a strong environment-based SECRET_KEY, allowed hosts, HTTPS, secure cookies, backups, and a production database/server. For genuine payment testing, integrate a licensed payment provider's sandbox; never display a personal QR as if it were an official bill.
