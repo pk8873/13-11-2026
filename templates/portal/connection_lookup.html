@@ -1,0 +1,29 @@
+{% extends "portal/base.html" %}
+{% block title %}Demo Connection Bill{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-8">
+<div class="card border-0 shadow-sm p-4 p-md-5">
+<div class="d-flex justify-content-between flex-wrap gap-2"><span class="badge text-bg-warning">DEMO BILL — NOT A REAL BILL</span><span class="small text-muted">Ref: {{ connection.connection_number }}</span></div>
+<h1 class="h3 mt-3">Demo LPG Connection Statement</h1>
+<div class="alert alert-warning"><strong>काल्पनिक रिकॉर्ड:</strong> यह किसी वास्तविक गैस प्रदाता का बिल या उपभोक्ता रिकॉर्ड नहीं है।</div>
+<div class="row g-3 bg-light rounded-3 p-3 my-2">
+<div class="col-sm-6"><div class="small text-muted">Demo Connection ID</div><strong>{{ connection.connection_number }}</strong></div>
+<div class="col-sm-6"><div class="small text-muted">Demo Owner</div><strong>{{ connection.owner_name }}</strong></div>
+<div class="col-sm-6"><div class="small text-muted">Demo Area</div><strong>{{ connection.area_label|default:"Demo Area" }}</strong></div>
+<div class="col-sm-6"><div class="small text-muted">Demo Due Amount</div><strong>₹{{ connection.demo_due_amount }}</strong></div>
+</div>
+{% if connection.status == "HOLD" %}
+<div class="alert alert-danger mt-3"><h2 class="h5">DEMO CONNECTION: ON HOLD</h2>यह स्थिति केवल Demo रिकॉर्ड में है।</div>
+<p>नीचे दिया बटन केवल Demo database status बदलेगा। कोई भुगतान, UPI request या असली connection restore नहीं होगा।</p>
+{% if connection.demo_due_amount > 0 %}
+<form method="post" action="{% url 'simulate_connection_payment' connection.pk %}">{% csrf_token %}<button class="btn btn-primary btn-lg w-100" type="submit">₹{{ connection.demo_due_amount }} — Simulate Payment (No Money)</button></form>
+{% else %}
+<p class="text-muted">इस Demo record में कोई test due amount नहीं है। Admin में test amount सेट करें।</p>
+{% endif %}
+{% else %}
+<div class="alert alert-success mt-3"><h2 class="h5">DEMO CONNECTION: ACTIVE</h2>Demo payment simulation complete. यह केवल Demo status है।</div>
+{% endif %}
+<a class="btn btn-outline-secondary mt-3" href="{% url 'home' %}">Back to Home</a>
+<div class="small text-muted mt-4">NO REAL PAYMENT COLLECTED • NOT AFFILIATED WITH ANY GAS PROVIDER</div>
+</div></div></div>
+{% endblock %}
