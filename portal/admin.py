@@ -1,11 +1,21 @@
 from django.contrib import admin
-from .models import GasProduct, PaymentQR, Booking
+from .models import GasCompanyTheme, GasProduct, PaymentQR, Booking
+
+
+@admin.register(GasCompanyTheme)
+class GasCompanyThemeAdmin(admin.ModelAdmin):
+    list_display = ("portal_name", "theme_style", "updated_at")
+    fields = ("portal_name", "tagline", "theme_style", "support_phone", "announcement")
+    def has_add_permission(self, request):
+        return not GasCompanyTheme.objects.exists()
+
 
 @admin.register(GasProduct)
 class GasProductAdmin(admin.ModelAdmin):
     list_display = ("name", "price", "active")
     list_filter = ("active",)
     search_fields = ("name",)
+
 
 @admin.register(PaymentQR)
 class PaymentQRAdmin(admin.ModelAdmin):
@@ -14,6 +24,7 @@ class PaymentQRAdmin(admin.ModelAdmin):
     fields = ("title", "image", "instructions", "active")
     def has_add_permission(self, request):
         return not PaymentQR.objects.exists()
+
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
