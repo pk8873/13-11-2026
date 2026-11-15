@@ -1,0 +1,51 @@
+{% extends "portal/base.html" %}
+{% block title %}Demo Payment Checkout{% endblock %}
+{% block content %}
+<div class="checkout-shell">
+  <div class="checkout-top"><a href="{% url 'home' %}" class="back-link">← होम पर वापस</a><span class="demo-stamp">SANDBOX / TEST ONLY</span></div>
+  {% if completed %}
+  <section class="checkout-card text-center">
+    <div class="checkout-success-mark">✓</div>
+    <div class="section-kicker mt-3">SIMULATION COMPLETE</div>
+    <h1 class="h2 fw-bold mt-2">Demo payment successful</h1>
+    <p class="text-secondary">यह केवल test flow का confirmation है। किसी बैंक, UPI ऐप या payment provider से संपर्क नहीं हुआ और कोई पैसा transfer नहीं हुआ।</p>
+    <div class="checkout-total"><span>Sample amount</span><strong>₹{{ amount|floatformat:2 }}</strong></div>
+    <div class="demo-alert mt-3 text-start"><strong>Test confirmation:</strong> {{ connection_number }} · {{ owner_name }}. यह रसीद वास्तविक payment proof नहीं है।</div>
+    <a class="btn btn-primary btn-lg w-100 mt-4" href="/">Back to homepage</a>
+  </section>
+  {% else %}
+  <section class="checkout-card">
+    <div class="section-kicker">INDEPENDENT DEMO CHECKOUT</div>
+    <h1 class="h2 fw-bold mt-2">Payment experience preview</h1>
+    <p class="text-secondary">नीचे QR-जैसा visual केवल interface testing के लिए है। यह जानबूझकर non-scannable है और किसी UPI/payment address से जुड़ा नहीं है।</p>
+    <div class="checkout-grid">
+      <div class="checkout-summary">
+        <h2 class="h6 fw-bold">Sample order summary</h2>
+        <div class="summary-line"><span>Reference</span><strong>{{ connection_number }}</strong></div>
+        <div class="summary-line"><span>Demo customer</span><strong>{{ owner_name }}</strong></div>
+        <div class="summary-line"><span>Sample service amount</span><strong>₹{{ amount|floatformat:2 }}</strong></div>
+        <div class="checkout-total"><span>Total · Demo only</span><strong>₹{{ amount|floatformat:2 }}</strong></div>
+      </div>
+      <div class="mock-qr-panel">
+        <div class="mock-qr-label">NON-SCANNABLE TEST VISUAL</div>
+        <div class="mock-qr" aria-label="Decorative non-scannable QR-like test graphic">
+          <span class="finder finder-a"></span><span class="finder finder-b"></span><span class="finder finder-c"></span>
+          <span class="qr-cross">TEST</span>
+        </div>
+        <strong class="d-block mt-3">QR payment preview</strong>
+        <p class="small text-secondary mb-0">इसे scan न करें। कोई payment QR मौजूद नहीं है।</p>
+      </div>
+    </div>
+    <div class="demo-alert mt-4"><strong>सुरक्षा सूचना:</strong> कोई UPI ID, बैंक खाता, OTP, PIN या कार्ड विवरण न डालें। इस demo में वास्तविक payment gateway integrate नहीं है।</div>
+    <form method="post" class="mt-4">
+      {% csrf_token %}
+      <input type="hidden" name="connection_number" value="{{ connection_number }}">
+      <input type="hidden" name="owner_name" value="{{ owner_name }}">
+      <input type="hidden" name="stage" value="complete">
+      <button class="btn btn-primary btn-lg w-100" type="submit">Simulate payment success — ₹{{ amount|floatformat:2 }}</button>
+      <p class="small text-secondary text-center mt-2 mb-0">बटन दबाने पर केवल demo confirmation खुलेगा; कोई transaction नहीं होगा।</p>
+    </form>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}
