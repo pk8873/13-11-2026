@@ -1,29 +1,31 @@
 {% extends "portal/base.html" %}
-{% block title %}Demo Connection Bill{% endblock %}
+{% block title %}Demo Service Statement{% endblock %}
 {% block content %}
-<div class="row justify-content-center"><div class="col-lg-8">
-<div class="card border-0 shadow-sm p-4 p-md-5">
-<div class="d-flex justify-content-between flex-wrap gap-2"><span class="badge text-bg-warning">DEMO BILL — NOT A REAL BILL</span><span class="small text-muted">Ref: {{ connection.connection_number }}</span></div>
-<h1 class="h3 mt-3">Demo LPG Connection Statement</h1>
-<div class="alert alert-warning"><strong>काल्पनिक रिकॉर्ड:</strong> यह किसी वास्तविक गैस प्रदाता का बिल या उपभोक्ता रिकॉर्ड नहीं है।</div>
-<div class="row g-3 bg-light rounded-3 p-3 my-2">
-<div class="col-sm-6"><div class="small text-muted">Demo Connection ID</div><strong>{{ connection.connection_number }}</strong></div>
-<div class="col-sm-6"><div class="small text-muted">Demo Owner</div><strong>{{ connection.owner_name }}</strong></div>
-<div class="col-sm-6"><div class="small text-muted">Demo Area</div><strong>{{ connection.area_label|default:"Demo Area" }}</strong></div>
-<div class="col-sm-6"><div class="small text-muted">Demo Due Amount</div><strong>₹{{ connection.demo_due_amount }}</strong></div>
+<div class="statement-wrap">
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3"><a href="{% url 'home' %}" class="back-link">← होम पर वापस</a><button class="btn btn-outline-secondary btn-sm" onclick="window.print()">प्रिंट / Save PDF</button></div>
+<div class="statement-card">
+<div class="statement-head"><div><div class="section-kicker">INDEPENDENT SERVICE PORTAL</div><h1 class="h3 fw-bold mb-1">{{ site_theme.portal_name|default:"GasCare Service Demo" }}</h1><p class="text-secondary mb-0">Customer service statement</p></div><div class="statement-mark">{{ site_theme.logo_text|default:"GC" }}</div></div>
+<div class="statement-watermark">DEMO</div>
+<div class="statement-status"><span class="demo-stamp">DEMO STATEMENT · NOT A REAL BILL</span><span class="small text-secondary">Record: {{ connection.connection_number }}</span></div>
+<div class="demo-alert compact-alert"><strong>परीक्षण दस्तावेज़:</strong> यह केवल काल्पनिक Demo रिकॉर्ड है। यह गैस सिलेंडर, सरकारी शुल्क या किसी वास्तविक प्रदाता का बिल नहीं है।</div>
+<h2 class="h5 fw-bold mt-4 mb-3">ग्राहक रिकॉर्ड विवरण</h2>
+<div class="detail-grid">
+<div><span>Demo Customer ID</span><strong>{{ connection.connection_number }}</strong></div>
+<div><span>Demo Customer Name</span><strong>{{ connection.owner_name }}</strong></div>
+<div><span>Demo Area</span><strong>{{ connection.area_label|default:"Demo Area" }}</strong></div>
+<div><span>Record Updated</span><strong>{{ connection.updated_at|date:"d M Y, h:i A" }}</strong></div>
 </div>
+<div class="amount-panel"><div><span>Demo reference amount</span><small>केवल परीक्षण के लिए निर्धारित राशि</small></div><strong>₹{{ connection.demo_due_amount|floatformat:2 }}</strong></div>
 {% if connection.status == "HOLD" %}
-<div class="alert alert-danger mt-3"><h2 class="h5">DEMO CONNECTION: ON HOLD</h2>यह स्थिति केवल Demo रिकॉर्ड में है।</div>
-<p>नीचे दिया बटन केवल Demo database status बदलेगा। कोई भुगतान, UPI request या असली connection restore नहीं होगा।</p>
-{% if connection.demo_due_amount > 0 %}
-<form method="post" action="{% url 'simulate_connection_payment' connection.pk %}">{% csrf_token %}<button class="btn btn-primary btn-lg w-100" type="submit">₹{{ connection.demo_due_amount }} — Simulate Payment (No Money)</button></form>
+<div class="status-panel status-hold"><span class="status-dot"></span><div><strong>DEMO STATUS: ON HOLD</strong><small>यह केवल Demo database की स्थिति है।</small></div></div>
+<p class="text-secondary small mt-3">इस बटन से कोई भुगतान नहीं होगा। यह केवल परीक्षण रिकॉर्ड की स्थिति बदलता है।</p>
+{% if connection.demo_due_amount > 0 %}<form method="post" action="{% url 'simulate_connection_payment' connection.pk %}">{% csrf_token %}<button class="btn btn-primary btn-lg w-100" type="submit">Demo प्रक्रिया चलाएँ — कोई पैसा नहीं</button></form>{% else %}<div class="small text-secondary">इस रिकॉर्ड में कोई परीक्षण राशि सेट नहीं है।</div>{% endif %}
 {% else %}
-<p class="text-muted">इस Demo record में कोई test due amount नहीं है। Admin में test amount सेट करें।</p>
+<div class="status-panel status-active"><span class="status-dot"></span><div><strong>DEMO STATUS: ACTIVE</strong><small>Demo simulation पूरी हुई। कोई वास्तविक भुगतान नहीं हुआ।</small></div></div>
 {% endif %}
-{% else %}
-<div class="alert alert-success mt-3"><h2 class="h5">DEMO CONNECTION: ACTIVE</h2>Demo payment simulation complete. यह केवल Demo status है।</div>
+{% if payment_qr %}
+<div class="qr-preview mt-4"><div><div class="section-kicker">ADMIN UPLOADED TEST IMAGE</div><h2 class="h6 fw-bold">QR image preview</h2><p class="small text-secondary mb-0">यह केवल UI परीक्षण के लिए है। इसे स्कैन न करें और कोई पैसा ट्रांसफर न करें।</p></div><img src="{{ payment_qr.image.url }}" alt="Non-functional demo QR image"></div>
 {% endif %}
-<a class="btn btn-outline-secondary mt-3" href="{% url 'home' %}">Back to Home</a>
-<div class="small text-muted mt-4">NO REAL PAYMENT COLLECTED • NOT AFFILIATED WITH ANY GAS PROVIDER</div>
-</div></div></div>
+<div class="statement-foot"><strong>DEMO ONLY · NOT PAYABLE · NO REAL PAYMENT ACCEPTED</strong><p class="small text-secondary mb-0 mt-2">किसी वास्तविक LPG प्रदाता या सरकारी विभाग से संबद्ध नहीं।</p></div>
+</div></div>
 {% endblock %}
