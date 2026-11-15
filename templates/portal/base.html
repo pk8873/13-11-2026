@@ -20,7 +20,7 @@
 <header class="site-header">
 <nav class="navbar navbar-expand-lg topbar"><div class="container">
 <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="{% url 'home' %}" aria-label="होम पेज">
-{% if site_theme.logo_image %}<img class="brand-logo" src="{{ site_theme.logo_image.url }}" alt="Independent demo logo">{% else %}<span class="brand-mark">{{ site_theme.logo_text|default:"GC" }}</span>{% endif %}
+{% if site_theme.logo_image %}<img class="brand-logo" src="{{ site_theme.logo_image.url }}" alt="Independent demo logo">{% else %}<img class="brand-logo brand-logo-default" src="{% static 'portal/gascare-demo-mark.svg' %}" alt="GasCare independent demo mark">{% endif %}
 <span>{{ site_theme.portal_name|default:"GasCare Service Demo" }}<small class="d-block brand-subtitle">{{ site_theme.tagline|default:"Independent LPG service experience" }}</small></span>
 </a>
 <div class="header-actions"><a class="header-link" href="{% url 'home' %}">होम</a><a class="header-link" href="{% url 'home' %}#services">सेवाएँ</a><a class="btn btn-header" href="{% url 'home' %}#connection-lookup">Sample statement <span aria-hidden="true">→</span></a></div>
