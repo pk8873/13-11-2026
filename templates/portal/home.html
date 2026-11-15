@@ -1,31 +1,47 @@
 {% extends "portal/base.html" %}
-{% block title %}{{ site_theme.portal_name }} | Independent LPG Service{% endblock %}
+{% block title %}{{ site_theme.portal_name }} | Independent LPG Demo{% endblock %}
 {% block content %}
 <section class="hero-panel mb-4">
-<div class="row align-items-center g-4">
-<div class="col-lg-7">
-<div class="eyebrow mb-3"><span class="pulse-dot"></span> INDEPENDENT LPG SERVICE EXPERIENCE</div>
-<h1 class="display-4 fw-bold mb-3">{{ site_theme.hero_title|default:"LPG सेवा की जानकारी, सरल और व्यवस्थित।" }}</h1>
-<p class="hero-copy mb-4">{{ site_theme.hero_description|default:"अपने Demo service record, statement और booking experience को एक ही जगह पर देखें।" }}</p>
-<a href="#connection-lookup" class="btn btn-light btn-lg fw-bold px-4">अपना Demo रिकॉर्ड देखें <span aria-hidden="true">→</span></a>
-<div class="hero-trust mt-4"><span>✓ सुरक्षित Demo अनुभव</span><span>✓ स्पष्ट रिकॉर्ड</span><span>✓ मोबाइल अनुकूल</span></div>
-</div>
-<div class="col-lg-5"><div class="hero-visual"><div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div><div class="visual-cylinder"><span class="cylinder-flame">✦</span><strong>GAS</strong><small>CARE SERVICE</small></div><div class="floating-chip chip-top">Service made simple</div><div class="floating-chip chip-bottom">DEMO • TEST</div></div></div>
-</div></section>
-<div class="demo-alert mb-4"><strong>महत्वपूर्ण सूचना:</strong> यह स्वतंत्र Demo है, किसी वास्तविक गैस कंपनी की आधिकारिक वेबसाइट नहीं। केवल काल्पनिक Demo ID और नाम का उपयोग करें। यहां दिखने वाला बिल और स्थिति वास्तविक नहीं है; कोई वास्तविक भुगतान नहीं होता।</div>
+  <div class="row align-items-center g-4">
+    <div class="col-lg-7">
+      <div class="eyebrow mb-3"><span class="pulse-dot"></span> INDEPENDENT LPG SERVICE DEMO</div>
+      <h1 class="display-4 fw-bold mb-3">{{ site_theme.hero_title|default:"LPG सेवा का डिजिटल अनुभव, सरल और स्पष्ट।" }}</h1>
+      <p class="hero-copy mb-4">{{ site_theme.hero_description|default:"एक आधुनिक Demo portal में sample statement, service information और customer journey का अनुभव करें।" }}</p>
+      <a href="#connection-lookup" class="btn btn-light btn-lg fw-bold px-4">Sample statement बनाएं <span aria-hidden="true">→</span></a>
+      <div class="hero-trust mt-4"><span>✓ साफ़ जानकारी</span><span>✓ मोबाइल अनुकूल</span><span>✓ कोई वास्तविक भुगतान नहीं</span></div>
+    </div>
+    <div class="col-lg-5"><div class="hero-visual"><div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div><div class="visual-cylinder"><span class="cylinder-flame">✦</span><strong>GAS</strong><small>CARE SERVICE</small></div><div class="floating-chip chip-top">Independent service demo</div><div class="floating-chip chip-bottom">SAMPLE • NOT OFFICIAL</div></div></div>
+  </div>
+</section>
+
+<div class="demo-alert mb-4"><strong>Demo और गोपनीयता सूचना:</strong> यह किसी LPG कंपनी की आधिकारिक वेबसाइट नहीं है। कृपया वास्तविक गैस कनेक्शन नंबर, ग्राहक का असली नाम, मोबाइल नंबर या पता दर्ज न करें। नीचे कोई भी काल्पनिक टेस्ट विवरण भरने पर ₹350 का illustrative sample statement बनेगा—यह असली बिल, बकाया राशि या provider lookup नहीं है।</div>
+
 <section class="lookup-card mb-4" id="connection-lookup">
-<div class="row g-4 align-items-center">
-<div class="col-lg-5"><div class="section-kicker">CUSTOMER DEMO ACCESS</div><h2 class="h2 fw-bold mb-2">अपना Demo सेवा रिकॉर्ड खोजें</h2><p class="text-secondary mb-0">Admin द्वारा बनाए गए काल्पनिक रिकॉर्ड का विवरण देखने के लिए Demo ID और Demo नाम दर्ज करें।</p><div class="lookup-help mt-3"><span class="help-icon">i</span><span>उदाहरण: <b>DEMO-100001</b> · Demo Customer</span></div></div>
-<div class="col-lg-7"><form method="post" action="{% url 'lookup_demo_connection' %}" class="lookup-form">{% csrf_token %}
-<div class="mb-3"><label class="form-label" for="connection_number">Demo Connection ID</label><input id="connection_number" class="form-control form-control-lg" name="connection_number" maxlength="24" placeholder="DEMO-100001" autocomplete="off" required></div>
-<div class="mb-3"><label class="form-label" for="owner_name">Demo Customer Name</label><input id="owner_name" class="form-control form-control-lg" name="owner_name" maxlength="120" placeholder="Demo Customer" autocomplete="off" required></div>
-<button class="btn btn-primary btn-lg w-100" type="submit">रिकॉर्ड खोजें <span aria-hidden="true">→</span></button>
-</form></div>
-</div></section>
-<section class="mb-5" id="services"><div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3"><div><div class="section-kicker">PORTAL FEATURES</div><h2 class="h3 fw-bold mb-0">एक सरल सेवा अनुभव</h2></div><span class="text-secondary small">Demo features only</span></div>
-<div class="row g-3">
-<div class="col-md-4"><div class="feature-card h-100"><div class="feature-icon icon-blue">▤</div><h3 class="h5 fw-bold">डिजिटल स्टेटमेंट</h3><p class="text-secondary mb-0">काल्पनिक रिकॉर्ड के आधार पर स्पष्ट Demo statement देखें।</p></div></div>
-<div class="col-md-4"><div class="feature-card h-100"><div class="feature-icon icon-green">◷</div><h3 class="h5 fw-bold">रिकॉर्ड स्थिति</h3><p class="text-secondary mb-0">Demo रिकॉर्ड की Hold और Active स्थिति का अनुभव।</p></div></div>
-<div class="col-md-4"><div class="feature-card h-100"><div class="feature-icon icon-orange">▦</div><h3 class="h5 fw-bold">QR UI Preview</h3><p class="text-secondary mb-0">केवल निष्क्रिय परीक्षण QR का सुरक्षित प्रदर्शन।</p></div></div>
-</div></section>
+  <div class="row g-4 align-items-center">
+    <div class="col-lg-5">
+      <div class="section-kicker">INSTANT SAMPLE GENERATOR</div>
+      <h2 class="h2 fw-bold mb-2">अपना sample statement बनाएं</h2>
+      <p class="text-secondary mb-0">यह Demo form किसी database या सरकारी/provider system से मिलान नहीं करता। हर बार आपके दिए गए काल्पनिक विवरण के आधार पर sample statement तैयार होता है।</p>
+      <div class="lookup-help mt-3"><span class="help-icon">i</span><span>उदाहरण: <b>DEMO-100001</b> · <b>Demo Customer</b></span></div>
+    </div>
+    <div class="col-lg-7">
+      <form method="post" action="{% url 'lookup_demo_connection' %}" class="lookup-form">
+        {% csrf_token %}
+        <div class="mb-3"><label class="form-label" for="connection_number">Demo reference number</label><input id="connection_number" class="form-control form-control-lg" name="connection_number" maxlength="24" placeholder="DEMO-100001" autocomplete="off" required></div>
+        <div class="mb-3"><label class="form-label" for="owner_name">काल्पनिक ग्राहक नाम</label><input id="owner_name" class="form-control form-control-lg" name="owner_name" maxlength="120" placeholder="Demo Customer" autocomplete="off" required></div>
+        <button class="btn btn-primary btn-lg w-100" type="submit">₹350 का sample statement बनाएं <span aria-hidden="true">→</span></button>
+        <p class="form-note mt-3 mb-0">कोई वास्तविक connection search नहीं होगा। कोई असली bill या payment उत्पन्न नहीं होता।</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="mb-5" id="services">
+  <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3"><div><div class="section-kicker">PORTAL FEATURES</div><h2 class="h3 fw-bold mb-0">एक भरोसेमंद Demo अनुभव</h2></div><span class="text-secondary small">Independent demo only</span></div>
+  <div class="row g-3">
+    <div class="col-md-4"><div class="feature-card h-100"><div class="feature-icon icon-blue">▤</div><h3 class="h5 fw-bold">तुरंत sample statement</h3><p class="text-secondary mb-0">रिकॉर्ड न मिलने की समस्या के बिना illustrative statement preview बनाएं।</p></div></div>
+    <div class="col-md-4"><div class="feature-card h-100"><div class="feature-icon icon-green">◷</div><h3 class="h5 fw-bold">स्पष्ट विवरण</h3><p class="text-secondary mb-0">दर्ज किए गए demo विवरण और sample amount साफ़ तरीके से देखें।</p></div></div>
+    <div class="col-md-4"><div class="feature-card h-100"><div class="feature-icon icon-orange">▦</div><h3 class="h5 fw-bold">Print-ready preview</h3><p class="text-secondary mb-0">Demo label के साथ statement को print या PDF preview करें।</p></div></div>
+  </div>
+</section>
 {% endblock %}
