@@ -132,3 +132,8 @@ class BookingAdmin(admin.ModelAdmin):
             "description": "यह demo booking data है। वास्तविक ग्राहक का मोबाइल या पता दर्ज न करें।",
         }),
     )
+
+# Clear, independent branding for the Django administration interface.
+admin.site.site_header = "GasCare Demo Control Room"
+admin.site.site_title = "GasCare Demo Admin"
+admin.site.index_title = "Project management · Demo records only"
