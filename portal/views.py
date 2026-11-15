@@ -1,6 +1,11 @@
+from decimal import Decimal
+from types import SimpleNamespace
+
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from django.views.decorators.http import require_http_methods
+
 from .models import GasCompanyTheme, GasProduct, Booking, DemoGasConnection, PaymentQR
 
 
@@ -22,22 +27,26 @@ def home(request):
 
 @require_http_methods(["POST"])
 def lookup_demo_connection(request):
-    connection_number = request.POST.get("connection_number", "").strip().upper()
-    owner_name = request.POST.get("owner_name", "").strip()
+    # This is intentionally a sample generator, NOT a real LPG lookup.
+    # Do not save or query the submitted reference/name against real customer records.
+    connection_number = request.POST.get("connection_number", "").strip()[:24]
+    owner_name = request.POST.get("owner_name", "").strip()[:120]
     if not connection_number or not owner_name:
-        messages.error(request, "Demo Connection ID और Demo Customer Name दोनों भरें।")
+        messages.error(request, "कृपया दोनों Demo fields भरें।")
         return redirect("home")
-    connection = DemoGasConnection.objects.filter(
-        connection_number__iexact=connection_number,
-        owner_name__iexact=owner_name,
-    ).first()
-    if connection is None:
-        messages.error(request, "Demo रिकॉर्ड नहीं मिला। Admin में बनाए गए काल्पनिक Demo ID और नाम का उपयोग करें।")
-        return redirect("home")
+
+    sample = SimpleNamespace(
+        connection_number=connection_number,
+        owner_name=owner_name,
+        area_label="Illustrative sample only — provider/area not verified",
+        updated_at=timezone.now(),
+        demo_due_amount=Decimal("350.00"),
+    )
     return render(request, "portal/connection_lookup.html", {
-        "connection": connection,
+        "connection": sample,
         "site_theme": get_site_theme(),
-        "payment_qr": PaymentQR.objects.filter(active=True).first(),
+        "payment_qr": None,
+        "sample_statement": True,
     })
 
 
@@ -51,12 +60,14 @@ def simulate_connection_payment(request, pk):
     return render(request, "portal/connection_lookup.html", {
         "connection": connection,
         "site_theme": get_site_theme(),
-        "payment_qr": PaymentQR.objects.filter(active=True).first(),
+        "payment_qr": None,
+        "sample_statement": False,
     })
 
 
-@require_http_methods(["POST"])
 def create_booking(request):
+    if request.method != "POST":
+        return redirect("home")
     name = request.POST.get("customer_name", "").strip()
     mobile = request.POST.get("mobile", "").strip()
     address = request.POST.get("address", "").strip()
