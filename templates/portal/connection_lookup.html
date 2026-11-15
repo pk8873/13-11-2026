@@ -23,6 +23,14 @@
     </div>
     <div class="amount-panel"><div><span>Illustrative sample amount</span><small>यह वास्तविक गैस कीमत, बकाया या सरकारी शुल्क नहीं है</small></div><strong>₹{{ connection.demo_due_amount|floatformat:2 }}</strong></div>
     <div class="status-panel status-sample"><span class="status-dot"></span><div><strong>SAMPLE GENERATED · NO CONNECTION STATUS</strong><small>इस पेज से कोई गैस कनेक्शन activate, hold या restore नहीं होता।</small></div></div>
+    <form method="post" action="{% url 'demo_checkout' %}" class="mt-4">
+      {% csrf_token %}
+      <input type="hidden" name="connection_number" value="{{ connection.connection_number }}">
+      <input type="hidden" name="owner_name" value="{{ connection.owner_name }}">
+      <input type="hidden" name="stage" value="checkout">
+      <button class="btn btn-primary btn-lg w-100" type="submit">Continue to Demo Payment — ₹350</button>
+      <p class="small text-secondary text-center mt-2 mb-0">अगला पेज केवल payment-flow testing के लिए है। कोई वास्तविक भुगतान नहीं होगा।</p>
+    </form>
     <div class="statement-foot"><strong>DEMO ONLY · NOT PAYABLE · NO REAL PAYMENT ACCEPTED</strong><p class="small text-secondary mb-0 mt-2">किसी LPG कंपनी, वितरक या सरकारी विभाग से संबद्ध नहीं। वास्तविक जानकारी के लिए अपने अधिकृत LPG प्रदाता के आधिकारिक पोर्टल/ऐप से संपर्क करें।</p></div>
   </div>
 </div>
