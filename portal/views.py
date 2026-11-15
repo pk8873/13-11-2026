@@ -65,6 +65,25 @@ def simulate_connection_payment(request, pk):
     })
 
 
+@require_http_methods(["POST"])
+def demo_checkout(request):
+    # Entirely simulated checkout: no payment gateway, QR payload, or money transfer.
+    connection_number = request.POST.get("connection_number", "").strip()[:24]
+    owner_name = request.POST.get("owner_name", "").strip()[:120]
+    stage = request.POST.get("stage", "checkout")
+    if not connection_number or not owner_name:
+        messages.error(request, "Sample statement से checkout शुरू करें।")
+        return redirect("home")
+    completed = stage == "complete"
+    return render(request, "portal/demo_payment.html", {
+        "connection_number": connection_number,
+        "owner_name": owner_name,
+        "amount": Decimal("350.00"),
+        "completed": completed,
+        "site_theme": get_site_theme(),
+    })
+
+
 def create_booking(request):
     if request.method != "POST":
         return redirect("home")
