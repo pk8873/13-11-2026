@@ -1,29 +1,21 @@
 {% extends "portal/base.html" %}
-{% block title %}Demo Connection Status{% endblock %}
+{% block title %}Demo Service Status | {{ site_theme.portal_name|default:"GasCare" }}{% endblock %}
 {% block content %}
-<div class="row justify-content-center"><div class="col-lg-8">
-<div class="card border-0 shadow-sm p-4 p-md-5">
-<span class="badge text-bg-warning align-self-start">DEMO CONNECTION STATUS</span>
-<h1 class="h3 mt-3">कनेक्शन स्थिति</h1>
-<div class="alert alert-warning">यह एक काल्पनिक डेमो है। इसका किसी गैस कंपनी, सरकारी विभाग या वास्तविक उपभोक्ता रिकॉर्ड से कोई संबंध नहीं है।</div>
-<div class="bg-light rounded-3 p-3 mb-3">
-<div class="small text-muted">Demo Reference</div>
-<div class="fw-bold fs-5">DEMO-{{ booking.id|stringformat:"06d" }}</div>
-<div class="small text-muted mt-2">Test customer</div>
-<div>{{ booking.customer_name }}</div>
+<div class="journey-shell">
+  <div class="journey-heading"><a href="{% url 'home' %}" class="back-link">← होम पर वापस</a><span class="journey-step">DEMO JOURNEY <b>03 / 03</b></span></div>
+  <section class="journey-card">
+    <div class="page-kicker">INDEPENDENT SERVICE DEMO <span>•</span> TEST STATUS</div>
+    <h1 class="page-title mt-2">Demo service status</h1>
+    <p class="page-lead">नीचे केवल इस वेबसाइट की test booking की स्थिति दिखाई गई है। यह किसी वास्तविक गैस कनेक्शन की स्थिति नहीं है।</p>
+    <div class="demo-alert"><strong>स्पष्टता:</strong> कोई वास्तविक LPG connection pause, activate या restore नहीं किया गया है।</div>
+    <div class="reference-panel mt-4"><div><span>Demo reference</span><strong>DEMO-{{ booking.id|stringformat:"06d" }}</strong></div><div><span>Test customer</span><strong>{{ booking.customer_name }}</strong></div></div>
+    {% if restored %}
+    <div class="result-panel result-success mt-4"><span class="result-icon">✓</span><div><span class="result-eyebrow">SIMULATION COMPLETED</span><h2 class="h4 fw-bold mt-1 mb-1">Demo payment simulated</h2><p class="mb-0">इस demo booking का test action पूरा हुआ। यह payment receipt या वास्तविक सेवा बहाली का प्रमाण नहीं है।</p></div></div>
+    {% else %}
+    <div class="result-panel result-pending mt-4"><span class="result-icon">…</span><div><span class="result-eyebrow">TEST ACTION PENDING</span><h2 class="h4 fw-bold mt-1 mb-1">Demo flow अभी पूरा नहीं हुआ</h2><p class="mb-0">आप चाहें तो checkout पेज पर जाकर simulated payment action चला सकते हैं।</p></div></div>
+    <a class="btn btn-primary btn-lg w-100 mt-4" href="{% url 'payment_info' booking.pk %}">Open demo checkout <span aria-hidden="true">→</span></a>
+    {% endif %}
+    <a class="btn btn-outline-secondary w-100 mt-3" href="{% url 'home' %}">होम पेज पर वापस जाएँ</a>
+  </section>
 </div>
-{% if restored %}
-<div class="alert alert-success">
-<h2 class="h5 mb-1">Demo Connection Restored</h2>
-इस डेमो बुकिंग का टेस्ट पेमेंट सफलतापूर्वक simulate हुआ। Demo status अब Active है।
-</div>
-{% else %}
-<div class="alert alert-danger">
-<h2 class="h5 mb-1">Demo Connection Paused</h2>
-यह टेस्ट बुकिंग अभी Pending है। नीचे जाकर केवल simulated payment चलाएँ।
-</div>
-<a class="btn btn-primary" href="{% url 'payment_info' booking.pk %}">Demo Payment पर जाएँ</a>
-{% endif %}
-<a class="btn btn-outline-secondary mt-3" href="/">Home पर वापस जाएँ</a>
-</div></div></div>
 {% endblock %}
