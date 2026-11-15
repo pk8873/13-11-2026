@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
-from .models import GasCompanyTheme, GasProduct, Booking, DemoGasConnection
+from .models import GasCompanyTheme, GasProduct, Booking, DemoGasConnection, PaymentQR
 
 
 def get_site_theme():
@@ -25,18 +25,19 @@ def lookup_demo_connection(request):
     connection_number = request.POST.get("connection_number", "").strip().upper()
     owner_name = request.POST.get("owner_name", "").strip()
     if not connection_number or not owner_name:
-        messages.error(request, "Demo Connection ID और Demo Owner Name दोनों भरें।")
+        messages.error(request, "Demo Connection ID और Demo Customer Name दोनों भरें।")
         return redirect("home")
     connection = DemoGasConnection.objects.filter(
         connection_number__iexact=connection_number,
         owner_name__iexact=owner_name,
     ).first()
     if connection is None:
-        messages.error(request, "Demo रिकॉर्ड नहीं मिला। कृपया Admin में बनाए गए काल्पनिक Demo ID और नाम का उपयोग करें।")
+        messages.error(request, "Demo रिकॉर्ड नहीं मिला। Admin में बनाए गए काल्पनिक Demo ID और नाम का उपयोग करें।")
         return redirect("home")
     return render(request, "portal/connection_lookup.html", {
         "connection": connection,
         "site_theme": get_site_theme(),
+        "payment_qr": PaymentQR.objects.filter(active=True).first(),
     })
 
 
@@ -46,10 +47,11 @@ def simulate_connection_payment(request, pk):
     if connection.status == "HOLD":
         connection.status = "ACTIVE"
         connection.save(update_fields=["status", "updated_at"])
-        messages.success(request, "Demo payment simulate हुआ। Demo status अब ACTIVE है। कोई वास्तविक भुगतान नहीं हुआ।")
+        messages.success(request, "Demo simulation पूरी हुई। रिकॉर्ड अब ACTIVE है। कोई वास्तविक भुगतान नहीं हुआ।")
     return render(request, "portal/connection_lookup.html", {
         "connection": connection,
         "site_theme": get_site_theme(),
+        "payment_qr": PaymentQR.objects.filter(active=True).first(),
     })
 
 
