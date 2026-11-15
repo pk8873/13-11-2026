@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block title %}{{ title }} | GasCare Demo Control Room{% endblock %}
+{% block branding %}
+<div id="site-name">
+  <a href="{% url 'admin:index' %}" class="admin-brand">
+    <img src="{% static 'portal/gascare-demo-mark.svg' %}" alt="" width="38" height="38">
+    <span><strong>GasCare</strong><small>DEMO CONTROL ROOM</small></span>
+  </a>
+</div>
+{% endblock %}
+{% block nav-global %}<div class="admin-environment-label">INDEPENDENT DEMO · ADMIN AREA</div>{% endblock %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin/css/gascare-admin.css' %}">
+{% endblock %}
