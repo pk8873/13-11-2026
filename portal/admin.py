@@ -5,7 +5,7 @@ from .models import GasCompanyTheme, GasProduct, PaymentQR, Booking, DemoGasConn
 @admin.register(GasCompanyTheme)
 class GasCompanyThemeAdmin(admin.ModelAdmin):
     fieldsets = (
-        ("1. Company-style Demo Profile", {"fields": ("profile_key", "theme_style"), "description": "यह किसी वास्तविक provider की official branding नहीं है।"}),
+        ("1. Independent Demo Profile", {"fields": ("profile_key", "theme_style"), "description": "यह किसी वास्तविक provider की official branding नहीं है।"}),
         ("2. Independent Demo Branding", {"fields": ("portal_name", "logo_text", "logo_image", "tagline")}),
         ("3. Homepage & Navigation", {"fields": ("hero_title", "hero_description", "nav_home_label", "nav_services_label", "nav_booking_label")}),
         ("4. Demo Notice & Support", {"fields": ("announcement", "support_phone")}),
@@ -41,7 +41,10 @@ class GasProductAdmin(admin.ModelAdmin):
 class PaymentQRAdmin(admin.ModelAdmin):
     list_display = ("title", "active", "updated_at")
     list_filter = ("active",)
-    fields = ("title", "image", "instructions", "active")
+    fieldsets = (
+        (None, {"fields": ("title", "image", "instructions", "active"),
+                "description": "केवल non-functional TEST QR image upload करें। कोई वास्तविक UPI या बैंक QR upload न करें। ग्राहक पेज पर यह image TEST ONLY चेतावनी के साथ दिखाई जाएगी।"}),
+    )
 
     def has_add_permission(self, request):
         return not PaymentQR.objects.exists()
